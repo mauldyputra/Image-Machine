@@ -20,6 +20,8 @@
 		8B4B076926A91B910002964F /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4B076826A91B910002964F /* UIColor.swift */; };
 		8B4B077426A92D640002964F /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4B077326A92D640002964F /* UIViewController.swift */; };
 		8B4B077626A932D40002964F /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4B077526A932D40002964F /* UITextField.swift */; };
+		8B4B077926A94D580002964F /* MachineDataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4B077726A94D580002964F /* MachineDataCell.swift */; };
+		8B4B077A26A94D580002964F /* MachineDataCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B4B077826A94D580002964F /* MachineDataCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +40,8 @@
 		8B4B076826A91B910002964F /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		8B4B077326A92D640002964F /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		8B4B077526A932D40002964F /* UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
+		8B4B077726A94D580002964F /* MachineDataCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineDataCell.swift; sourceTree = "<group>"; };
+		8B4B077826A94D580002964F /* MachineDataCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MachineDataCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +111,8 @@
 				8B4B075D26A912F30002964F /* MachineDataVC.swift */,
 				8B4B075F26A913010002964F /* CodeReaderVC.swift */,
 				8B4B076526A91B590002964F /* AddMachineDataBtn.swift */,
+				8B4B077726A94D580002964F /* MachineDataCell.swift */,
+				8B4B077826A94D580002964F /* MachineDataCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -194,6 +200,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B4B075426A90BBD0002964F /* LaunchScreen.storyboard in Resources */,
+				8B4B077A26A94D580002964F /* MachineDataCell.xib in Resources */,
 				8B4B075126A90BBD0002964F /* Assets.xcassets in Resources */,
 				8B4B075C26A90CC90002964F /* README.md in Resources */,
 				8B4B074C26A90BBC0002964F /* Main.storyboard in Resources */,
@@ -216,6 +223,7 @@
 				8B4B075E26A912F30002964F /* MachineDataVC.swift in Sources */,
 				8B4B076026A913010002964F /* CodeReaderVC.swift in Sources */,
 				8B4B074726A90BBC0002964F /* SceneDelegate.swift in Sources */,
+				8B4B077926A94D580002964F /* MachineDataCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
