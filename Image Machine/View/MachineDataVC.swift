@@ -6,7 +6,9 @@
 //
 
 import UIKit
+import CoreData
 
+@available(iOS 13.0, *)
 class MachineDataVC: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
@@ -16,30 +18,59 @@ class MachineDataVC: UIViewController {
     let picker = UIPickerView()
     let pickerData = ["Machine Name", "Machine Type"]
     
+    var vm = MachineDataViewModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.setup()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        let addNewMachineData = AddMachineDataBtn(context: self)
-        self.view.addSubview(addNewMachineData)
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        
+        self.vm.fetchCoreData()
+        print(self.vm.machineData)
+        self.tableView.reloadData()
     }
     
     func setup() {
+        self.navigationItem.largeTitleDisplayMode = .always
+        
         picker.dataSource = self
         picker.delegate = self
         picker.selectRow(selectedIndex, inComponent: 0, animated: true)
         
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAdd))
+        
+        setTextField()
+        setTableView()
+        hideKeyboardWhenTappedAround()
+    }
+    
+    func setTextField() {
         textField.inputView = picker
         textField.text = pickerData[selectedIndex]
         textField.adjustsFontSizeToFitWidth = true
         textField.minimumFontSize = 0.5
         textField.setupRightImage(imageName: "arrowDown")
-        
-        hideKeyboardWhenTappedAround()
+    }
+    
+    func setTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(UINib(nibName: "machineDataCell", bundle: nil), forCellReuseIdentifier: "machineDataCellIdentifier")
+    }
+    
+    @objc func didTapAdd() {
+        let vc = MachineDataFormVC(vm: self.vm, isEdit: false)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
+@available(iOS 13.0, *)
 extension MachineDataVC: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -57,5 +88,54 @@ extension MachineDataVC: UIPickerViewDelegate, UIPickerViewDataSource {
         selectedIndex = row
         textField.text = pickerData[row]
         textField.resignFirstResponder()
+    }
+}
+
+@available(iOS 13.0, *)
+extension MachineDataVC: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.vm.machineData.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "machineDataCellIdentifier", for: indexPath) as! MachineDataCell
+        
+        let data = self.vm.machineData[indexPath.row]
+        
+        if !self.vm.machineData.isEmpty {
+            cell.machineName.text = data.value(forKey: "machineName") as? String
+            cell.machineType.text = data.value(forKey: "machineType") as? String
+            cell.position = indexPath.row
+        } else {
+            cell.machineName.text = "Machinedq"
+            cell.machineType.text = "feqfoq"
+        }
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let data = self.vm.machineData[indexPath.row]
+        
+        let sheet = UIAlertController(title: "Edit", message: nil, preferredStyle: .actionSheet)
+        sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        sheet.addAction(UIAlertAction(title: "Edit", style: .default, handler: { _ in
+            let vc = MachineDataFormVC(vm: self.vm, data: data, isEdit: true)
+            
+            vc.idTextField.text = data.machineID
+            vc.nameTextField.text = data.machineName
+            vc.typeTextField.text = data.machineType
+            vc.qrCodeTextField.text = String(data.machineQrCode)
+            vc.dateTextField.text = data.maintenanceDate?.toString()
+            
+            self.navigationController?.pushViewController(vc, animated: true)
+        }))
+        sheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { [weak self] _ in
+            self?.vm.deleteData(data: data)
+        }))
+        
+        present(sheet, animated: true)
     }
 }
