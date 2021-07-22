@@ -16,6 +16,10 @@
 		8B4B075C26A90CC90002964F /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 8B4B075B26A90CC90002964F /* README.md */; };
 		8B4B075E26A912F30002964F /* MachineDataVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4B075D26A912F30002964F /* MachineDataVC.swift */; };
 		8B4B076026A913010002964F /* CodeReaderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4B075F26A913010002964F /* CodeReaderVC.swift */; };
+		8B4B076626A91B590002964F /* AddMachineDataBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4B076526A91B590002964F /* AddMachineDataBtn.swift */; };
+		8B4B076926A91B910002964F /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4B076826A91B910002964F /* UIColor.swift */; };
+		8B4B077426A92D640002964F /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4B077326A92D640002964F /* UIViewController.swift */; };
+		8B4B077626A932D40002964F /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4B077526A932D40002964F /* UITextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +34,10 @@
 		8B4B075B26A90CC90002964F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8B4B075D26A912F30002964F /* MachineDataVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineDataVC.swift; sourceTree = "<group>"; };
 		8B4B075F26A913010002964F /* CodeReaderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeReaderVC.swift; sourceTree = "<group>"; };
+		8B4B076526A91B590002964F /* AddMachineDataBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMachineDataBtn.swift; sourceTree = "<group>"; };
+		8B4B076826A91B910002964F /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		8B4B077326A92D640002964F /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		8B4B077526A932D40002964F /* UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +71,8 @@
 		8B4B074326A90BBC0002964F /* Image Machine */ = {
 			isa = PBXGroup;
 			children = (
+				8B4B076A26A922D30002964F /* Utility */,
+				8B4B076726A91B7F0002964F /* Extensions */,
 				8B4B076126A913870002964F /* Support */,
 				8B4B076426A913DE0002964F /* Resource */,
 				8B4B076226A913C70002964F /* Model */,
@@ -96,6 +106,7 @@
 				8B4B074A26A90BBC0002964F /* Main.storyboard */,
 				8B4B075D26A912F30002964F /* MachineDataVC.swift */,
 				8B4B075F26A913010002964F /* CodeReaderVC.swift */,
+				8B4B076526A91B590002964F /* AddMachineDataBtn.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -106,6 +117,23 @@
 				8B4B075026A90BBD0002964F /* Assets.xcassets */,
 			);
 			path = Resource;
+			sourceTree = "<group>";
+		};
+		8B4B076726A91B7F0002964F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8B4B076826A91B910002964F /* UIColor.swift */,
+				8B4B077326A92D640002964F /* UIViewController.swift */,
+				8B4B077526A932D40002964F /* UITextField.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		8B4B076A26A922D30002964F /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utility;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -180,7 +208,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B4B074F26A90BBC0002964F /* Image_Machine.xcdatamodeld in Sources */,
+				8B4B076926A91B910002964F /* UIColor.swift in Sources */,
+				8B4B077626A932D40002964F /* UITextField.swift in Sources */,
 				8B4B074526A90BBC0002964F /* AppDelegate.swift in Sources */,
+				8B4B077426A92D640002964F /* UIViewController.swift in Sources */,
+				8B4B076626A91B590002964F /* AddMachineDataBtn.swift in Sources */,
 				8B4B075E26A912F30002964F /* MachineDataVC.swift in Sources */,
 				8B4B076026A913010002964F /* CodeReaderVC.swift in Sources */,
 				8B4B074726A90BBC0002964F /* SceneDelegate.swift in Sources */,
