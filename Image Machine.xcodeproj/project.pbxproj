@@ -9,25 +9,27 @@
 /* Begin PBXBuildFile section */
 		8B4B074526A90BBC0002964F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4B074426A90BBC0002964F /* AppDelegate.swift */; };
 		8B4B074726A90BBC0002964F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4B074626A90BBC0002964F /* SceneDelegate.swift */; };
-		8B4B074926A90BBC0002964F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4B074826A90BBC0002964F /* ViewController.swift */; };
 		8B4B074C26A90BBC0002964F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B4B074A26A90BBC0002964F /* Main.storyboard */; };
 		8B4B074F26A90BBC0002964F /* Image_Machine.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8B4B074D26A90BBC0002964F /* Image_Machine.xcdatamodeld */; };
 		8B4B075126A90BBD0002964F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B4B075026A90BBD0002964F /* Assets.xcassets */; };
 		8B4B075426A90BBD0002964F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B4B075226A90BBD0002964F /* LaunchScreen.storyboard */; };
 		8B4B075C26A90CC90002964F /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 8B4B075B26A90CC90002964F /* README.md */; };
+		8B4B075E26A912F30002964F /* MachineDataVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4B075D26A912F30002964F /* MachineDataVC.swift */; };
+		8B4B076026A913010002964F /* CodeReaderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4B075F26A913010002964F /* CodeReaderVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		8B4B074126A90BBC0002964F /* Image Machine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Image Machine.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B4B074426A90BBC0002964F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8B4B074626A90BBC0002964F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		8B4B074826A90BBC0002964F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		8B4B074B26A90BBC0002964F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8B4B074E26A90BBC0002964F /* Image_Machine.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Image_Machine.xcdatamodel; sourceTree = "<group>"; };
 		8B4B075026A90BBD0002964F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8B4B075326A90BBD0002964F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8B4B075526A90BBD0002964F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B4B075B26A90CC90002964F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		8B4B075D26A912F30002964F /* MachineDataVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineDataVC.swift; sourceTree = "<group>"; };
+		8B4B075F26A913010002964F /* CodeReaderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeReaderVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,16 +63,49 @@
 		8B4B074326A90BBC0002964F /* Image Machine */ = {
 			isa = PBXGroup;
 			children = (
-				8B4B074426A90BBC0002964F /* AppDelegate.swift */,
-				8B4B074626A90BBC0002964F /* SceneDelegate.swift */,
-				8B4B074826A90BBC0002964F /* ViewController.swift */,
-				8B4B074A26A90BBC0002964F /* Main.storyboard */,
-				8B4B075026A90BBD0002964F /* Assets.xcassets */,
-				8B4B075226A90BBD0002964F /* LaunchScreen.storyboard */,
-				8B4B075526A90BBD0002964F /* Info.plist */,
-				8B4B074D26A90BBC0002964F /* Image_Machine.xcdatamodeld */,
+				8B4B076126A913870002964F /* Support */,
+				8B4B076426A913DE0002964F /* Resource */,
+				8B4B076226A913C70002964F /* Model */,
+				8B4B076326A913CD0002964F /* View */,
 			);
 			path = "Image Machine";
+			sourceTree = "<group>";
+		};
+		8B4B076126A913870002964F /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				8B4B074426A90BBC0002964F /* AppDelegate.swift */,
+				8B4B074626A90BBC0002964F /* SceneDelegate.swift */,
+				8B4B075226A90BBD0002964F /* LaunchScreen.storyboard */,
+				8B4B075526A90BBD0002964F /* Info.plist */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		8B4B076226A913C70002964F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8B4B074D26A90BBC0002964F /* Image_Machine.xcdatamodeld */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		8B4B076326A913CD0002964F /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8B4B074A26A90BBC0002964F /* Main.storyboard */,
+				8B4B075D26A912F30002964F /* MachineDataVC.swift */,
+				8B4B075F26A913010002964F /* CodeReaderVC.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8B4B076426A913DE0002964F /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				8B4B075026A90BBD0002964F /* Assets.xcassets */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -144,9 +179,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8B4B074926A90BBC0002964F /* ViewController.swift in Sources */,
 				8B4B074F26A90BBC0002964F /* Image_Machine.xcdatamodeld in Sources */,
 				8B4B074526A90BBC0002964F /* AppDelegate.swift in Sources */,
+				8B4B075E26A912F30002964F /* MachineDataVC.swift in Sources */,
+				8B4B076026A913010002964F /* CodeReaderVC.swift in Sources */,
 				8B4B074726A90BBC0002964F /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -296,7 +332,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MW3338A45T;
-				INFOPLIST_FILE = "Image Machine/Info.plist";
+				INFOPLIST_FILE = "Image Machine/Support/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -316,7 +352,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MW3338A45T;
-				INFOPLIST_FILE = "Image Machine/Info.plist";
+				INFOPLIST_FILE = "Image Machine/Support/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
