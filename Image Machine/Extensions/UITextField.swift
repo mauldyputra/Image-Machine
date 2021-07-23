@@ -18,7 +18,7 @@ extension UITextField {
         self.tintColor = .lightGray
     }
     
-    func datePicker<T>(target: T, doneAction: Selector, cancelAction: Selector, datePickerMode: UIDatePicker.Mode = .date) {
+    func datePicker<T>(target: T, doneAction: Selector, cancelAction: Selector, datePickerMode: UIDatePicker.Mode = .date, value: Date = Date()) {
         let screenWidth = UIScreen.main.bounds.width
         let datePicker = UIDatePicker(frame: CGRect(x: 0,
                                                     y: 0,
@@ -44,12 +44,22 @@ extension UITextField {
             
             return barButtonItem
         }
+        func setValue(value: Date?) {
+            if let value = value {
+                datePicker.date = value
+            } else if value == nil {
+                datePicker.date = Date()
+            }
+            self.text = value?.toString()
+        }
+        
         if #available(iOS 13.4, *) {
             datePicker.preferredDatePickerStyle = .wheels
         }
         datePicker.locale = Locale(identifier: "id")
         datePicker.maximumDate = Date()
         datePicker.datePickerMode = datePickerMode
+        setValue(value: value)
         self.inputView = datePicker
         
         let toolBar = UIToolbar(frame: CGRect(x: 0,

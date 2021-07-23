@@ -23,6 +23,13 @@ class MachineDataFormVC: UIViewController {
     var isEdit: Bool?
     var data: MachineData?
     var image: UIImage?
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    var idString = UUID().uuidString
+    var nameString = ""
+    var typeString = ""
+    var qrString = ""
+    var dateString = ""
     
     init(vm: MachineDataViewModel, data: MachineData, isEdit: Bool) {
         self.vm = vm
@@ -58,14 +65,15 @@ class MachineDataFormVC: UIViewController {
         
         if isEdit == false {
             self.navigationItem.title = "Add Machine Data"
-            self.idTextField.text = UUID().uuidString
+            self.idTextField.text = idString
         } else {
             self.navigationItem.title = "Edit Machine Data"
-            self.idTextField.text = self.data?.machineID ?? ""
-            self.nameTextField.text = self.data?.machineName ?? ""
-            self.typeTextField.text = self.data?.machineType ?? ""
-            self.qrCodeTextField.text = self.data?.machineQrCode.toString()
-            self.dateTextField.text = self.data?.maintenanceDate?.toString()
+            self.idTextField.text = idString
+            self.nameTextField.text = nameString
+            self.typeTextField.text = typeString
+            self.qrCodeTextField.text = self.qrString
+            self.dateTextField.text = dateString
+            dateTextField.datePicker(target: self, doneAction: #selector(done), cancelAction: #selector(cancel), value: dateString.toDate()!)
         }
         
         self.collectionView.register(UINib(nibName: "photoCell", bundle: nil), forCellWithReuseIdentifier: "photoCellIdentifier")
@@ -125,15 +133,47 @@ class MachineDataFormVC: UIViewController {
         }
     }
     
-    @IBAction func saveTapped(_ sender: UIButton) {
-        //error "Type of expression is ambigous without more context
-//        if self.isEdit == false {
-//            self.vm?.saveToCoreData(id: idTextField.text ?? "", name: nameTextField.text ?? "", type: typeTextField.text ?? "", qrCode: qrCodeTextField.text?.toInt64() ?? 0, maintenanceDate: dateTextField.text?.toDate() ?? Date())
-//        } else {
-//            self.vm?.updateData(data: self.data!, newName: nameTextField.text ?? "", newType: typeTextField.text ?? "", newQrCode: qrCodeTextField.text?.toInt64() ?? 0, newMaintenanceDate: dateTextField.text?.toDate() ?? Date())
-//        }
+    @available(iOS 13.0, *)
+    func createData() {
+        let newData = MachineData(context: context)
         
-        self.dismiss(animated: true, completion: nil)
+        newData.machineID = idTextField.text
+        newData.machineName = nameTextField.text
+        newData.machineType = typeTextField.text
+        newData.machineQrCode = qrCodeTextField.text?.toInt64() ?? 0
+        newData.maintenanceDate = dateTextField.text?.toDate()
+        
+        do {
+            try context.save()
+            self.vm?.fetchCoreData()
+        } catch {
+            
+        }
+    }
+    @available(iOS 13.0, *)
+    func updateData() {
+        self.data?.machineName = nameTextField.text
+        self.data?.machineType = typeTextField.text
+        self.data?.machineQrCode = qrCodeTextField.text?.toInt64() ?? 0
+        self.data?.maintenanceDate = dateTextField.text?.toDate()
+        
+        do {
+            try context.save()
+            self.vm?.fetchCoreData()
+        } catch {
+            
+        }
+    }
+    
+    @available(iOS 13.0, *)
+    @IBAction func saveTapped(_ sender: UIButton) {
+        if self.isEdit == false {
+            self.createData()
+        } else {
+            self.updateData()
+        }
+        
+        self.navigationController?.popViewController(animated: true)
     }
 }
 

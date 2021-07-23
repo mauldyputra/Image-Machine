@@ -61,7 +61,7 @@ class MachineDataVC: UIViewController {
     func setTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UINib(nibName: "machineDataCell", bundle: nil), forCellReuseIdentifier: "machineDataCellIdentifier")
+        tableView.register(UINib(nibName: "MachineDataCell", bundle: nil), forCellReuseIdentifier: "machineDataCellIdentifier")
     }
     
     @objc func didTapAdd() {
@@ -124,16 +124,20 @@ extension MachineDataVC: UITableViewDelegate, UITableViewDataSource {
         sheet.addAction(UIAlertAction(title: "Edit", style: .default, handler: { _ in
             let vc = MachineDataFormVC(vm: self.vm, data: data, isEdit: true)
             
-            vc.idTextField.text = data.machineID
-            vc.nameTextField.text = data.machineName
-            vc.typeTextField.text = data.machineType
-            vc.qrCodeTextField.text = String(data.machineQrCode)
-            vc.dateTextField.text = data.maintenanceDate?.toString()
+            //error
+            vc.idString = data.machineID ?? ""
+            vc.nameString = data.machineName ?? ""
+            vc.typeString = data.machineType ??  ""
+            vc.qrString = String(data.machineQrCode)
+            vc.dateString = data.maintenanceDate?.toString() ?? ""
             
             self.navigationController?.pushViewController(vc, animated: true)
         }))
         sheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { [weak self] _ in
             self?.vm.deleteData(data: data)
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
         }))
         
         present(sheet, animated: true)
