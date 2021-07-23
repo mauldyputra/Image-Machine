@@ -10,7 +10,7 @@ import CoreData
 
 @available(iOS 13.0, *)
 class MachineDataVC: UIViewController {
-
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var textField: UITextField!
     
@@ -61,6 +61,8 @@ class MachineDataVC: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "MachineDataCell", bundle: nil), forCellReuseIdentifier: "machineDataCellIdentifier")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+    }
     }
     
     @objc func didTapAdd() {
@@ -93,24 +95,34 @@ extension MachineDataVC: UIPickerViewDelegate, UIPickerViewDataSource {
 @available(iOS 13.0, *)
 extension MachineDataVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.vm.machineData.count
+        if self.vm.machineData.count != 0 {
+            return self.vm.machineData.count
+        } else {
+            return 1
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "machineDataCellIdentifier", for: indexPath) as! MachineDataCell
-        
-        let data = self.vm.machineData[indexPath.row]
-        
-        if !self.vm.machineData.isEmpty {
+        if self.vm.machineData.count != 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "machineDataCellIdentifier", for: indexPath) as! MachineDataCell
+            
+            let data = self.vm.machineData[indexPath.row]
+            
             cell.machineName.text = data.value(forKey: "machineName") as? String
             cell.machineType.text = data.value(forKey: "machineType") as? String
             cell.position = indexPath.row
+            
+            return cell
         } else {
-            cell.machineName.text = "Machinedq"
-            cell.machineType.text = "feqfoq"
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            
+            cell.textLabel?.text = "There are no data"
+            cell.textLabel?.textAlignment = .center
+            cell.textLabel?.textColor = .red
+            cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 30)
+            
+            return cell
         }
-        
-        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
