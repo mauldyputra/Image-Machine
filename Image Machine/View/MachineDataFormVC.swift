@@ -81,6 +81,7 @@ class MachineDataFormVC: UIViewController {
     
     @available(iOS 13.0, *)
     @IBAction func saveTapped(_ sender: UIButton) {
+        //error "Type of expression is ambigous without more context
 //        if self.isEdit == false {
 //            self.vm?.saveToCoreData(id: idTextField.text ?? "", name: nameTextField.text ?? "", type: typeTextField.text ?? "", qrCode: qrCodeTextField.text?.toInt64() ?? 0, maintenanceDate: dateTextField.text?.toDate() ?? Date())
 //        } else {
