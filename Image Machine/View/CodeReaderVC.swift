@@ -62,10 +62,6 @@ class CodeReaderVC: UIViewController {
         session.startRunning()
     }
     
-    deinit {
-        session.stopRunning()
-    }
-    
     private func captureDevice(forPosition position: AVCaptureDevice.Position) -> AVCaptureDevice? {
         if #available(iOS 11.0, *) {
             let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: .unspecified)
