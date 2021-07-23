@@ -17,41 +17,50 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sort by" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QEO-Nm-hia">
-                                <rect key="frame" x="20" y="150" width="55.5" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="H2c-KH-yGv">
-                                <rect key="frame" x="0.0" y="194" width="414" height="619"/>
+                                <rect key="frame" x="0.0" y="184" width="414" height="629"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
-                            <textField opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceLeftToRight" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wmi-aq-Axv">
-                                <rect key="frame" x="85.5" y="150" width="308.5" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DK0-XP-AgT">
+                                <rect key="frame" x="0.0" y="140" width="414" height="44"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <items>
+                                    <barButtonItem style="plain" id="B8M-f8-U5g">
+                                        <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="P4V-qC-QRa">
+                                            <rect key="frame" x="20" y="5.5" width="374" height="33"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <segments>
+                                                <segment title="Sort By Name"/>
+                                                <segment title="Sort By Type"/>
+                                            </segments>
+                                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="selectedSegmentTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <connections>
+                                                <action selector="sortSegmentedControlTapped:" destination="BYZ-38-t0r" eventType="valueChanged" id="NiX-gF-O62"/>
+                                            </connections>
+                                        </segmentedControl>
+                                    </barButtonItem>
+                                </items>
+                                <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </toolbar>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="wmi-aq-Axv" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="3ia-6z-UW6"/>
-                            <constraint firstItem="wmi-aq-Axv" firstAttribute="leading" secondItem="QEO-Nm-hia" secondAttribute="trailing" constant="10" id="BWY-vM-5so"/>
+                            <constraint firstItem="DK0-XP-AgT" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="14v-TM-kpC"/>
+                            <constraint firstItem="H2c-KH-yGv" firstAttribute="top" secondItem="DK0-XP-AgT" secondAttribute="bottom" id="CM3-GH-xjU"/>
+                            <constraint firstItem="DK0-XP-AgT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="I8T-Fj-9WQ"/>
+                            <constraint firstItem="DK0-XP-AgT" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="KA9-xf-JJX"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="H2c-KH-yGv" secondAttribute="bottom" id="Kk3-F0-u7F"/>
-                            <constraint firstItem="H2c-KH-yGv" firstAttribute="top" secondItem="wmi-aq-Axv" secondAttribute="bottom" constant="10" id="O5Y-Bj-D7s"/>
-                            <constraint firstItem="QEO-Nm-hia" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="V5W-2o-Adb"/>
-                            <constraint firstItem="wmi-aq-Axv" firstAttribute="centerY" secondItem="QEO-Nm-hia" secondAttribute="centerY" id="dKU-Mi-WfF"/>
-                            <constraint firstItem="QEO-Nm-hia" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="eoZ-w8-QWW"/>
                             <constraint firstItem="H2c-KH-yGv" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="etv-jU-tjk"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="wmi-aq-Axv" secondAttribute="trailing" constant="20" id="fri-eY-FIU"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="H2c-KH-yGv" secondAttribute="trailing" id="weg-Pp-cr3"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Machine Data" largeTitleDisplayMode="always" id="xIa-7s-gbw"/>
                     <connections>
+                        <outlet property="sortSegmentedControl" destination="P4V-qC-QRa" id="fIh-Xz-quO"/>
                         <outlet property="tableView" destination="H2c-KH-yGv" id="3aH-UX-Z8j"/>
-                        <outlet property="textField" destination="wmi-aq-Axv" id="DSM-HP-4jU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -80,6 +89,7 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="YJU-QQ-mKo" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="sCx-b1-Z54">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>

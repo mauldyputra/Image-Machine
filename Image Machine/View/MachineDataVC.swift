@@ -12,10 +12,8 @@ import CoreData
 class MachineDataVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var sortSegmentedControl: UISegmentedControl!
     
-    private var selectedIndex = 0
-    let picker = UIPickerView()
     let pickerData = ["Machine Name", "Machine Type"]
     
     var vm = MachineDataViewModel()
@@ -30,29 +28,17 @@ class MachineDataVC: UIViewController {
         super.viewWillAppear(animated)
         
         self.vm.fetchCoreData()
+        self.sort()
         self.tableView.reloadData()
     }
     
     func setup() {
         self.navigationItem.largeTitleDisplayMode = .always
-        
-        picker.dataSource = self
-        picker.delegate = self
-        picker.selectRow(selectedIndex, inComponent: 0, animated: true)
-        
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAdd))
         
-        setTextField()
+        configSegmentedControl()
         setTableView()
         hideKeyboardWhenTappedAround()
-    }
-    
-    func setTextField() {
-        textField.inputView = picker
-        textField.text = pickerData[selectedIndex]
-        textField.adjustsFontSizeToFitWidth = true
-        textField.minimumFontSize = 0.5
-        textField.setupRightImage(imageName: "arrowDown")
     }
     
     func setTableView() {
@@ -62,30 +48,30 @@ class MachineDataVC: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
     
+    func configSegmentedControl(){
+        sortSegmentedControl.layer.borderColor = UIColor.white.cgColor
+        sortSegmentedControl.layer.borderWidth = 1
+    }
+    
+    func sort() {
+        switch sortSegmentedControl.selectedSegmentIndex {
+        case 0:
+            self.vm.machineData.sort(by: { $0.machineName ?? "" < $1.machineName ?? ""})
+        case 1:
+            self.vm.machineData.sort(by: { $0.machineType ?? "" < $1.machineType ?? ""})
+        default:
+            print("Out of index")
+        }
+        self.tableView.reloadData()
+    }
+    
+    @IBAction func sortSegmentedControlTapped(_ sender: UISegmentedControl) {
+        self.sort()
+    }
+    
     @objc func didTapAdd() {
         let vc = MachineDataFormVC(vm: self.vm, isEdit: false)
         self.navigationController?.pushViewController(vc, animated: true)
-    }
-}
-
-@available(iOS 13.0, *)
-extension MachineDataVC: UIPickerViewDelegate, UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickerData.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickerData[row]
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        selectedIndex = row
-        textField.text = pickerData[row]
-        textField.resignFirstResponder()
     }
 }
 
@@ -127,7 +113,7 @@ extension MachineDataVC: UITableViewDelegate, UITableViewDataSource {
         
         let data = self.vm.machineData[indexPath.row]
         
-        let sheet = UIAlertController(title: "Edit", message: nil, preferredStyle: .actionSheet)
+        let sheet = UIAlertController(title: "Edit \(data.machineName!)", message: nil, preferredStyle: .actionSheet)
         sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         sheet.addAction(UIAlertAction(title: "Edit", style: .default, handler: { _ in
             let vc = MachineDataFormVC(vm: self.vm, data: data, isEdit: true)
@@ -143,6 +129,7 @@ extension MachineDataVC: UITableViewDelegate, UITableViewDataSource {
         sheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { [weak self] _ in
             self?.vm.deleteData(data: data)
             DispatchQueue.main.async {
+                self?.sort()
                 self?.tableView.reloadData()
             }
         }))
