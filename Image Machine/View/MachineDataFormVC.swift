@@ -16,12 +16,16 @@ class MachineDataFormVC: UIViewController {
     @IBOutlet weak var qrCodeTextField: UITextField!
     @IBOutlet weak var dateTextField: UITextField!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var selectBtn: UIButton!
     @IBOutlet weak var saveBtn: UIButton!
     
     var vm: MachineDataViewModel?
     var isEdit: Bool?
     var data: MachineData?
+    let layout = UICollectionViewFlowLayout()
+    private let spacingBetweenCells: CGFloat = 11.0
+    private let numberOfItemsPerRow:CGFloat = 5
     var image: UIImage?
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -52,6 +56,29 @@ class MachineDataFormVC: UIViewController {
         super.viewDidLoad()
         
         setup()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        if UIScreen.main.bounds.width <= 375 {
+            layout.sectionInset = UIEdgeInsets(top: 1, left: 0, bottom: 1, right: 30)
+            layout.minimumLineSpacing = 5
+            layout.minimumInteritemSpacing = 0
+            layout.itemSize = CGSize(width: (self.collectionView.frame.size.width/2)-15, height: (self.collectionView.frame.size.width/2)-15)
+        } else {
+            let totalSpacing = (2 * self.spacingBetweenCells) + ((numberOfItemsPerRow - 1) * spacingBetweenCells)
+            let width = (self.collectionView.bounds.width - totalSpacing)/numberOfItemsPerRow
+            
+            layout.itemSize = CGSize(width: width, height: width)
+            layout.sectionInset = UIEdgeInsets(top: spacingBetweenCells, left: spacingBetweenCells, bottom: spacingBetweenCells, right: spacingBetweenCells)
+            layout.minimumLineSpacing = spacingBetweenCells
+            layout.minimumInteritemSpacing = spacingBetweenCells
+        }
+        self.collectionView?.collectionViewLayout = layout
+        
+        self.collectionViewHeightConstraint.constant = self.collectionView.collectionViewLayout.collectionViewContentSize.height
+        self.view.layoutIfNeeded()
     }
     
     func setup() {
@@ -186,7 +213,6 @@ extension MachineDataFormVC: PHPickerViewControllerDelegate {
             result.itemProvider.loadObject(ofClass: UIImage.self) { (object, error) in
                 if let image = object as? UIImage {
                     DispatchQueue.main.async {
-                        print("selected image: ", image)
                         self.collectionView.isHidden = false
                         self.image = image
                     }

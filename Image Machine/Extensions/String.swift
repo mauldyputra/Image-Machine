@@ -22,4 +22,8 @@ extension String {
     func toInt64() -> Int64 {
         return Int64(self) ?? 0
     }
+    
+    func toInt() -> Int {
+        return Int(self) ?? 0
+    }
 }

@@ -29,8 +29,6 @@ class MachineDataVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        
         self.vm.fetchCoreData()
         self.tableView.reloadData()
     }

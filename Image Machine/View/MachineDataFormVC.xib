@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MachineDataFormVC" customModule="Image_Machine" customModuleProvider="target">
             <connections>
                 <outlet property="collectionView" destination="9BW-oa-LTR" id="sa0-db-3tg"/>
+                <outlet property="collectionViewHeightConstraint" destination="csm-nA-Afa" id="4Nx-MJ-D3B"/>
                 <outlet property="dateTextField" destination="Hb4-Nb-g8d" id="9nE-Zd-3X9"/>
                 <outlet property="idTextField" destination="KKK-Hz-rQr" id="N1J-Tn-YnC"/>
                 <outlet property="nameTextField" destination="N5c-jN-smi" id="8rf-bp-Jcb"/>
