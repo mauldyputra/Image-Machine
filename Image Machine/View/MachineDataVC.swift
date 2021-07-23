@@ -32,7 +32,6 @@ class MachineDataVC: UIViewController {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         
         self.vm.fetchCoreData()
-        print(self.vm.machineData)
         self.tableView.reloadData()
     }
     
@@ -124,7 +123,6 @@ extension MachineDataVC: UITableViewDelegate, UITableViewDataSource {
         sheet.addAction(UIAlertAction(title: "Edit", style: .default, handler: { _ in
             let vc = MachineDataFormVC(vm: self.vm, data: data, isEdit: true)
             
-            //error
             vc.idString = data.machineID ?? ""
             vc.nameString = data.machineName ?? ""
             vc.typeString = data.machineType ??  ""
