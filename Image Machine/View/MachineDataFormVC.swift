@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PhotosUI
 
 class MachineDataFormVC: UIViewController {
     
@@ -14,11 +15,14 @@ class MachineDataFormVC: UIViewController {
     @IBOutlet weak var typeTextField: UITextField!
     @IBOutlet weak var qrCodeTextField: UITextField!
     @IBOutlet weak var dateTextField: UITextField!
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var selectBtn: UIButton!
     @IBOutlet weak var saveBtn: UIButton!
     
     var vm: MachineDataViewModel?
     var isEdit: Bool?
     var data: MachineData?
+    var image: UIImage?
     
     init(vm: MachineDataViewModel, data: MachineData, isEdit: Bool) {
         self.vm = vm
@@ -46,6 +50,7 @@ class MachineDataFormVC: UIViewController {
     func setup() {
         self.navigationItem.largeTitleDisplayMode = .never
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title:" ", style:.plain, target:nil, action:nil)
+        selectBtn.layer.cornerRadius = 15
         saveBtn.layer.cornerRadius = 15
         idTextField.isEnabled = false
         dateTextField.datePicker(target: self, doneAction: #selector(done), cancelAction: #selector(cancel))
@@ -62,6 +67,10 @@ class MachineDataFormVC: UIViewController {
             self.qrCodeTextField.text = self.data?.machineQrCode.toString()
             self.dateTextField.text = self.data?.maintenanceDate?.toString()
         }
+        
+        self.collectionView.register(UINib(nibName: "photoCell", bundle: nil), forCellWithReuseIdentifier: "photoCellIdentifier")
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
     }
     
     @objc func cancel() {
@@ -79,7 +88,43 @@ class MachineDataFormVC: UIViewController {
         }
     }
     
+    func showGallery() {
+        if #available(iOS 14, *) {
+            var configuration = PHPickerConfiguration()
+            configuration.filter = .images
+            configuration.selectionLimit = 10
+            DispatchQueue.main.async {
+                let vc = PHPickerViewController(configuration: configuration)
+                vc.delegate = self
+                self.present(vc, animated: true)
+            }
+        }
+    }
+    
     @available(iOS 13.0, *)
+    @IBAction func selectTapped(_ sender: UIButton) {
+        let photoAuth = PHPhotoLibrary.authorizationStatus()
+        switch photoAuth {
+        case .authorized:
+            self.showGallery()
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization { newStatus in
+                if newStatus == .authorized {
+                    self.showGallery()
+                }
+            }
+            print("It is not determined until now")
+        case .restricted:
+            print("User do not have access to photo album.")
+        case .denied:
+            // same same
+            print("User has denied the permission.")
+        case .limited:
+            // same same
+            print("User has denied the permission.")
+        }
+    }
+    
     @IBAction func saveTapped(_ sender: UIButton) {
         //error "Type of expression is ambigous without more context
 //        if self.isEdit == false {
@@ -90,4 +135,37 @@ class MachineDataFormVC: UIViewController {
         
         self.dismiss(animated: true, completion: nil)
     }
+}
+
+@available(iOS 14, *)
+extension MachineDataFormVC: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true, completion: nil)
+        
+        for result in results {
+            result.itemProvider.loadObject(ofClass: UIImage.self) { (object, error) in
+                if let image = object as? UIImage {
+                    DispatchQueue.main.async {
+                        print("selected image: ", image)
+                        self.collectionView.isHidden = false
+                        self.image = image
+                    }
+                }
+            }
+        }
+    }
+}
+
+extension MachineDataFormVC: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.vm?.machineData.count ?? 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCellIdentifier", for: indexPath) as! photoCell
+        
+        cell.data = self.image
+        return cell
+    }
+    
 }

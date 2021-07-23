@@ -62,6 +62,8 @@
 	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) need camera access to do QR Scan</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>$(PRODUCT_NAME) want to use Photo Library to upload your photo and save ones to the app</string>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
 </dict>
