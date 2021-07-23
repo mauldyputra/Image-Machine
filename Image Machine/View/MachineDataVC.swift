@@ -63,7 +63,6 @@ class MachineDataVC: UIViewController {
         tableView.register(UINib(nibName: "MachineDataCell", bundle: nil), forCellReuseIdentifier: "machineDataCellIdentifier")
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
-    }
     
     @objc func didTapAdd() {
         let vc = MachineDataFormVC(vm: self.vm, isEdit: false)
