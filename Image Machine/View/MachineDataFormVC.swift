@@ -56,6 +56,7 @@ class MachineDataFormVC: UIViewController {
         super.viewDidLoad()
         
         setup()
+        hideKeyboardWhenTappedAround()
     }
     
     override func viewDidLayoutSubviews() {
