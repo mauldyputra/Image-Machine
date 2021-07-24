@@ -115,7 +115,7 @@ extension MachineDataVC: UITableViewDelegate, UITableViewDataSource {
         
         let sheet = UIAlertController(title: "Edit \(data.machineName!)", message: nil, preferredStyle: .actionSheet)
         sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        sheet.addAction(UIAlertAction(title: "Edit", style: .default, handler: { _ in
+        sheet.addAction(UIAlertAction(title: "Edit Machine Data", style: .default, handler: { _ in
             let vc = MachineDataFormVC(vm: self.vm, data: data, isEdit: true)
             
             vc.idString = data.machineID ?? ""
@@ -126,7 +126,7 @@ extension MachineDataVC: UITableViewDelegate, UITableViewDataSource {
             
             self.navigationController?.pushViewController(vc, animated: true)
         }))
-        sheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { [weak self] _ in
+        sheet.addAction(UIAlertAction(title: "Delete Machine Data", style: .destructive, handler: { [weak self] _ in
             self?.vm.deleteData(data: data)
             DispatchQueue.main.async {
                 self?.sort()
