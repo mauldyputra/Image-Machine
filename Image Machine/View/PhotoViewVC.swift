@@ -9,18 +9,15 @@ import UIKit
 
 class PhotoViewVC: UIViewController {
     
-    let imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        return imageView
-    }()
+    @IBOutlet weak var imageView: UIImageView!
     
     var image: UIImage?
-    
+    var index: Int?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        imageView.image = image
+        self.navigationItem.title = "Machine Photo \(index ?? 1)"
+        self.imageView.image = image
     }
 }

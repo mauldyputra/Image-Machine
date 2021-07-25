@@ -16,17 +16,6 @@ class photoCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.imageView.image = UIImage(named: "machine")
-//        setImage(image: data)
+        self.imageView.image = data
     }
-    
-    private func setImage(image: UIImage?) {
-        self.imageView.image = image
-        if let image = image, image.size.width != 0 {
-            self.imageView.isHidden = false
-        } else {
-            self.imageView.isHidden = true
-        }
-    }
-
 }

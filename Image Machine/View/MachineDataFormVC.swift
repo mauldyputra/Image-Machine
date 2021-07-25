@@ -16,6 +16,7 @@ class MachineDataFormVC: UIViewController {
     @IBOutlet weak var qrCodeTextField: UITextField!
     @IBOutlet weak var dateTextField: UITextField!
     
+    @IBOutlet weak var collectionViewContainer: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
     
@@ -27,6 +28,8 @@ class MachineDataFormVC: UIViewController {
     var data: MachineData?
     let layout = UICollectionViewFlowLayout()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    private let spacingBetweenCells: CGFloat = 11.0
+    private let numberOfItemsPerRow:CGFloat = 2
     
     var idString = UUID().uuidString
     var nameString = ""
@@ -34,7 +37,6 @@ class MachineDataFormVC: UIViewController {
     var qrString = ""
     var dateString = ""
     var images: [UIImage] = []
-    var image: UIImage = UIImage(named: "machine")!
     
     init(vm: MachineDataViewModel, data: MachineData, isEdit: Bool) {
         self.vm = vm
@@ -58,6 +60,30 @@ class MachineDataFormVC: UIViewController {
         
         setup()
         hideKeyboardWhenTappedAround()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        if UIScreen.main.bounds.width <= 375 {
+            layout.sectionInset = UIEdgeInsets(top: 1, left: 0, bottom: 1, right: 30)
+            layout.minimumLineSpacing = 5
+            layout.minimumInteritemSpacing = 0
+            layout.itemSize = CGSize(width: (self.collectionView.frame.size.width/2)-15, height: (self.collectionView.frame.size.width/2)-15)
+        } else {
+            let totalSpacing = (2 * self.spacingBetweenCells) + ((numberOfItemsPerRow - 1) * spacingBetweenCells)
+            let width = (self.collectionView.bounds.width - totalSpacing)/numberOfItemsPerRow
+
+            layout.itemSize = CGSize(width: width, height: width)
+            layout.sectionInset = UIEdgeInsets(top: spacingBetweenCells, left: spacingBetweenCells, bottom: spacingBetweenCells, right: spacingBetweenCells)
+            layout.minimumLineSpacing = spacingBetweenCells
+            layout.minimumInteritemSpacing = spacingBetweenCells
+        }
+        self.collectionView?.collectionViewLayout = layout
+        self.collectionView.allowsMultipleSelection = true
+
+        self.collectionViewHeightConstraint.constant = self.collectionView.collectionViewLayout.collectionViewContentSize.height
+        self.view.layoutIfNeeded()
     }
     
     func setup() {
@@ -84,7 +110,6 @@ class MachineDataFormVC: UIViewController {
         }
         
         self.collectionView.register(UINib(nibName: "photoCell", bundle: nil), forCellWithReuseIdentifier: "photoCellIdentifier")
-        self.collectionView.isHidden = false
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
     }
@@ -191,13 +216,18 @@ class MachineDataFormVC: UIViewController {
 @available(iOS 14, *)
 extension MachineDataFormVC: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        picker.dismiss(animated: true, completion: nil)
+        picker.dismiss(animated: true) {
+            DispatchQueue.main.async {
+                self.collectionView.isHidden = false
+                self.collectionViewContainer.isHidden = false
+                self.collectionView.reloadData()
+            }
+        }
         
         for result in results {
             result.itemProvider.loadObject(ofClass: UIImage.self) { (object, error) in
                 if let image = object as? UIImage {
                     DispatchQueue.main.async {
-                        self.collectionView.isHidden = false
                         self.images.append(image)
                     }
                 }
@@ -206,20 +236,22 @@ extension MachineDataFormVC: PHPickerViewControllerDelegate {
     }
 }
 
-extension MachineDataFormVC: UICollectionViewDelegate, UICollectionViewDataSource {
+extension MachineDataFormVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.vm?.machineData.count ?? 0
+        return self.images.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCellIdentifier", for: indexPath) as! photoCell
         
-//        cell.data = self.image
+        cell.data = self.images[indexPath.row]
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = PhotoViewVC()
+        vc.image = self.images[indexPath.row]
+        vc.index = indexPath.row + 1
         self.navigationController?.pushViewController(vc, animated: true)
         print("image indexPath.row: ", indexPath.row)
     }
