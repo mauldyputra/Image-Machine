@@ -20,6 +20,8 @@ class MachineDataFormVC: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var deleteBtnContainer: UIView!
+    @IBOutlet weak var deleteBtn: UIButton!
     @IBOutlet weak var selectBtn: UIButton!
     @IBOutlet weak var saveBtn: UIButton!
     
@@ -30,6 +32,8 @@ class MachineDataFormVC: UIViewController {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     private let spacingBetweenCells: CGFloat = 11.0
     private let numberOfItemsPerRow:CGFloat = 2
+    let button = UIButton()
+    var selectedCells = [IndexPath]()
     
     var idString = UUID().uuidString
     var nameString = ""
@@ -90,11 +94,15 @@ class MachineDataFormVC: UIViewController {
         self.navigationItem.largeTitleDisplayMode = .never
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title:" ", style:.plain, target:nil, action:nil)
         
+        self.navigationItem.setRightBarButton(nil, animated: true)
+        
         idTextField.isEnabled = false
         dateTextField.datePicker(target: self, doneAction: #selector(done), cancelAction: #selector(cancel))
         dateTextField.setupRightImage(imageName: "arrowDown")
-        selectBtn.layer.cornerRadius = 15
+        deleteBtnContainer.isHidden = true
+        deleteBtn.layer.cornerRadius = 15
         saveBtn.layer.cornerRadius = 15
+        selectBtn.layer.cornerRadius = 15
         
         if !isEdit {
             self.navigationItem.title = "Add Machine Data"
@@ -112,6 +120,14 @@ class MachineDataFormVC: UIViewController {
         self.collectionView.register(UINib(nibName: "photoCell", bundle: nil), forCellWithReuseIdentifier: "photoCellIdentifier")
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
+    }
+    
+    func changeRightItemTitle(title: String?, itemColor: UIColor, action: Selector) {
+        button.setTitle(title, for: .normal)
+        button.setTitleColor(itemColor, for: .normal)
+        button.addTarget(self, action: action, for: .touchUpInside)
+        let editBarItem = UIBarButtonItem(customView: button)
+        self.navigationItem.setRightBarButton(editBarItem, animated: true)
     }
     
     @objc func cancel() {
@@ -196,6 +212,32 @@ class MachineDataFormVC: UIViewController {
         }
     }
     
+    @objc func didEditTapped() {
+        let edit = self.button.titleLabel?.text == "Edit" ? true : false
+        
+        if edit {
+            self.changeRightItemTitle(title: "Cancel", itemColor: .systemRed, action: #selector(didCancelTapped))
+            self.deleteBtnContainer.isHidden = false
+            self.selectedCells = []
+        } else {
+            self.changeRightItemTitle(title: "Edit", itemColor: .systemBlue, action: #selector(didEditTapped))
+            self.deleteBtnContainer.isHidden = true
+        }
+    }
+    
+    @objc func didCancelTapped() {
+        //do nothing
+    }
+    
+    @IBAction func deleteTapped(_ sender: UIButton) {
+        self.collectionView.performBatchUpdates {
+            self.collectionView.deleteItems(at: selectedCells)
+        } completion: { _ in
+            self.changeRightItemTitle(title: "Cancel", itemColor: .systemRed, action: #selector(self.didCancelTapped))
+        }
+        self.collectionView.reloadData()
+    }
+    
     @available(iOS 13.0, *)
     @IBAction func saveTapped(_ sender: UIButton) {
         if nameTextField.text!.isEmpty || typeTextField.text!.isEmpty {
@@ -220,6 +262,7 @@ extension MachineDataFormVC: PHPickerViewControllerDelegate {
             DispatchQueue.main.async {
                 self.collectionView.isHidden = false
                 self.collectionViewContainer.isHidden = false
+                self.changeRightItemTitle(title: "Edit", itemColor: .systemBlue, action: #selector(self.didEditTapped))
                 self.collectionView.reloadData()
             }
         }
@@ -238,6 +281,7 @@ extension MachineDataFormVC: PHPickerViewControllerDelegate {
 
 extension MachineDataFormVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print("ini images.count: ", images.count)
         return self.images.count
     }
     
@@ -249,11 +293,29 @@ extension MachineDataFormVC: UICollectionViewDelegate, UICollectionViewDataSourc
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = PhotoViewVC()
-        vc.image = self.images[indexPath.row]
-        vc.index = indexPath.row + 1
-        self.navigationController?.pushViewController(vc, animated: true)
-        print("image indexPath.row: ", indexPath.row)
+        if self.button.titleLabel?.text == "Edit" {
+            let vc = PhotoViewVC()
+            vc.image = self.images[indexPath.row]
+            vc.index = indexPath.row + 1
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            print("EditMode")
+            if !(selectedCells.contains(indexPath)) {
+                selectedCells.append(indexPath)
+                print("selectedCells - \(selectedCells)")
+            }
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        if self.button.titleLabel?.text == "Edit" {
+            //do nothing
+        } else {
+            if let index = selectedCells.firstIndex(where: { $0 == indexPath }) {
+                selectedCells.remove(at: index)
+                print("unselectedCells - \(selectedCells)")
+            }
+        }
     }
     
 }
