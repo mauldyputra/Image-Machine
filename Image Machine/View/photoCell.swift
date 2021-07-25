@@ -16,7 +16,8 @@ class photoCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        setImage(image: data)
+        self.imageView.image = UIImage(named: "machine")
+//        setImage(image: data)
     }
     
     private func setImage(image: UIImage?) {

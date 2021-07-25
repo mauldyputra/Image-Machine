@@ -33,7 +33,8 @@ class MachineDataFormVC: UIViewController {
     var typeString = ""
     var qrString = ""
     var dateString = ""
-    var image: UIImage?
+    var images: [UIImage] = []
+    var image: UIImage = UIImage(named: "machine")!
     
     init(vm: MachineDataViewModel, data: MachineData, isEdit: Bool) {
         self.vm = vm
@@ -83,7 +84,7 @@ class MachineDataFormVC: UIViewController {
         }
         
         self.collectionView.register(UINib(nibName: "photoCell", bundle: nil), forCellWithReuseIdentifier: "photoCellIdentifier")
-        self.collectionView.isHidden = true
+        self.collectionView.isHidden = false
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
     }
@@ -197,7 +198,7 @@ extension MachineDataFormVC: PHPickerViewControllerDelegate {
                 if let image = object as? UIImage {
                     DispatchQueue.main.async {
                         self.collectionView.isHidden = false
-                        self.image = image
+                        self.images.append(image)
                     }
                 }
             }
@@ -213,8 +214,14 @@ extension MachineDataFormVC: UICollectionViewDelegate, UICollectionViewDataSourc
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCellIdentifier", for: indexPath) as! photoCell
         
-        cell.data = self.image
+//        cell.data = self.image
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc = PhotoViewVC()
+        self.navigationController?.pushViewController(vc, animated: true)
+        print("image indexPath.row: ", indexPath.row)
     }
     
 }
