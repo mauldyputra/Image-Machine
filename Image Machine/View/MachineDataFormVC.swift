@@ -33,6 +33,7 @@ class MachineDataFormVC: UIViewController {
     var typeString = ""
     var qrString = ""
     var dateString = ""
+    var image: UIImage?
     
     init(vm: MachineDataViewModel, data: MachineData, isEdit: Bool) {
         self.vm = vm
@@ -56,29 +57,6 @@ class MachineDataFormVC: UIViewController {
         
         setup()
         hideKeyboardWhenTappedAround()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        if UIScreen.main.bounds.width <= 375 {
-            layout.sectionInset = UIEdgeInsets(top: 1, left: 0, bottom: 1, right: 30)
-            layout.minimumLineSpacing = 5
-            layout.minimumInteritemSpacing = 0
-            layout.itemSize = CGSize(width: (self.collectionView.frame.size.width/2)-15, height: (self.collectionView.frame.size.width/2)-15)
-        } else {
-            let totalSpacing = (2 * self.spacingBetweenCells) + ((numberOfItemsPerRow - 1) * spacingBetweenCells)
-            let width = (self.collectionView.bounds.width - totalSpacing)/numberOfItemsPerRow
-            
-            layout.itemSize = CGSize(width: width, height: width)
-            layout.sectionInset = UIEdgeInsets(top: spacingBetweenCells, left: spacingBetweenCells, bottom: spacingBetweenCells, right: spacingBetweenCells)
-            layout.minimumLineSpacing = spacingBetweenCells
-            layout.minimumInteritemSpacing = spacingBetweenCells
-        }
-        self.collectionView?.collectionViewLayout = layout
-        
-        self.collectionViewHeightConstraint.constant = self.collectionView.collectionViewLayout.collectionViewContentSize.height
-        self.view.layoutIfNeeded()
     }
     
     func setup() {
