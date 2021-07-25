@@ -195,13 +195,18 @@ class MachineDataFormVC: UIViewController {
     
     @available(iOS 13.0, *)
     @IBAction func saveTapped(_ sender: UIButton) {
-        if self.isEdit == false {
-            self.createData()
+        if nameTextField.text == "" || typeTextField.text == "" {
+            let alert = UIAlertController(title: "Check Again", message: "Blank field must be filled", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
         } else {
-            self.updateData()
+            if self.isEdit == false {
+                self.createData()
+            } else {
+                self.updateData()
+            }
+            self.navigationController?.popViewController(animated: true)
         }
-        
-        self.navigationController?.popViewController(animated: true)
     }
 }
 
