@@ -29,6 +29,7 @@
 		8B4B079326A9825B0002964F /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4B079226A9825B0002964F /* Int.swift */; };
 		8B4B079626A9A93B0002964F /* photoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4B079426A9A93B0002964F /* photoCell.swift */; };
 		8B4B079726A9A93B0002964F /* photoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B4B079526A9A93B0002964F /* photoCell.xib */; };
+		8B4B079D26AD262A0002964F /* PhotoViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4B079C26AD262A0002964F /* PhotoViewVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		8B4B079226A9825B0002964F /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
 		8B4B079426A9A93B0002964F /* photoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = photoCell.swift; sourceTree = "<group>"; };
 		8B4B079526A9A93B0002964F /* photoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = photoCell.xib; sourceTree = "<group>"; };
+		8B4B079C26AD262A0002964F /* PhotoViewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +133,7 @@
 				8B4B078C26A9736D0002964F /* MachineDataFormVC.xib */,
 				8B4B079426A9A93B0002964F /* photoCell.swift */,
 				8B4B079526A9A93B0002964F /* photoCell.xib */,
+				8B4B079C26AD262A0002964F /* PhotoViewVC.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -255,6 +258,7 @@
 				8B4B077426A92D640002964F /* UIViewController.swift in Sources */,
 				8B4B078826A96DF70002964F /* MachineDataFormVC.swift in Sources */,
 				8B4B075E26A912F30002964F /* MachineDataVC.swift in Sources */,
+				8B4B079D26AD262A0002964F /* PhotoViewVC.swift in Sources */,
 				8B4B078F26A977C80002964F /* Date.swift in Sources */,
 				8B4B076026A913010002964F /* CodeReaderVC.swift in Sources */,
 				8B4B074726A90BBC0002964F /* SceneDelegate.swift in Sources */,

@@ -19,7 +19,7 @@ class MachineDataViewModel {
         do {
             machineData = try context.fetch(MachineData.fetchRequest())
         } catch {
-            
+            //do nothing
         }
     }
     
@@ -31,7 +31,7 @@ class MachineDataViewModel {
             try context.save()
             fetchCoreData()
         } catch {
-            
+            //do nothing
         }
     }
 }
