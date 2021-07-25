@@ -15,18 +15,17 @@ class MachineDataFormVC: UIViewController {
     @IBOutlet weak var typeTextField: UITextField!
     @IBOutlet weak var qrCodeTextField: UITextField!
     @IBOutlet weak var dateTextField: UITextField!
+    
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var selectBtn: UIButton!
     @IBOutlet weak var saveBtn: UIButton!
     
     var vm: MachineDataViewModel?
-    var isEdit: Bool?
+    var isEdit: Bool = false
     var data: MachineData?
     let layout = UICollectionViewFlowLayout()
-    private let spacingBetweenCells: CGFloat = 11.0
-    private let numberOfItemsPerRow:CGFloat = 5
-    var image: UIImage?
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     var idString = UUID().uuidString
@@ -85,13 +84,14 @@ class MachineDataFormVC: UIViewController {
     func setup() {
         self.navigationItem.largeTitleDisplayMode = .never
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title:" ", style:.plain, target:nil, action:nil)
-        selectBtn.layer.cornerRadius = 15
-        saveBtn.layer.cornerRadius = 15
+        
         idTextField.isEnabled = false
         dateTextField.datePicker(target: self, doneAction: #selector(done), cancelAction: #selector(cancel))
         dateTextField.setupRightImage(imageName: "arrowDown")
+        selectBtn.layer.cornerRadius = 15
+        saveBtn.layer.cornerRadius = 15
         
-        if isEdit == false {
+        if !isEdit {
             self.navigationItem.title = "Add Machine Data"
             self.idTextField.text = idString
         } else {
@@ -105,6 +105,7 @@ class MachineDataFormVC: UIViewController {
         }
         
         self.collectionView.register(UINib(nibName: "photoCell", bundle: nil), forCellWithReuseIdentifier: "photoCellIdentifier")
+        self.collectionView.isHidden = true
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
     }
@@ -153,10 +154,8 @@ class MachineDataFormVC: UIViewController {
         case .restricted:
             print("User do not have access to photo album.")
         case .denied:
-            // same same
             print("User has denied the permission.")
         case .limited:
-            // same same
             print("User has denied the permission.")
         }
     }
@@ -175,7 +174,7 @@ class MachineDataFormVC: UIViewController {
             try context.save()
             self.vm?.fetchCoreData()
         } catch {
-            
+            //do nothing
         }
     }
     @available(iOS 13.0, *)
@@ -189,18 +188,18 @@ class MachineDataFormVC: UIViewController {
             try context.save()
             self.vm?.fetchCoreData()
         } catch {
-            
+            //do nothing
         }
     }
     
     @available(iOS 13.0, *)
     @IBAction func saveTapped(_ sender: UIButton) {
-        if nameTextField.text == "" || typeTextField.text == "" {
+        if nameTextField.text!.isEmpty || typeTextField.text!.isEmpty {
             let alert = UIAlertController(title: "Check Again", message: "Blank field must be filled", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             present(alert, animated: true, completion: nil)
         } else {
-            if self.isEdit == false {
+            if !self.isEdit {
                 self.createData()
             } else {
                 self.updateData()
