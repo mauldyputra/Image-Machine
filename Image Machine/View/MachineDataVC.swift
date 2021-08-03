@@ -110,30 +110,33 @@ extension MachineDataVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        let data = self.vm.machineData[indexPath.row]
-        
-        let sheet = UIAlertController(title: "Edit \(data.machineName!)", message: nil, preferredStyle: .actionSheet)
-        sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        sheet.addAction(UIAlertAction(title: "Edit Machine Data", style: .default, handler: { _ in
-            let vc = MachineDataFormVC(vm: self.vm, data: data, isEdit: true)
+        if self.vm.machineData.count != 0 {
+            let data = self.vm.machineData[indexPath.row]
             
-            vc.idString = data.machineID ?? ""
-            vc.nameString = data.machineName ?? ""
-            vc.typeString = data.machineType ??  ""
-            vc.qrString = String(data.machineQrCode)
-            vc.dateString = data.maintenanceDate?.toString() ?? ""
+            let sheet = UIAlertController(title: "Edit \(data.machineName!)", message: nil, preferredStyle: .actionSheet)
+            sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            sheet.addAction(UIAlertAction(title: "Edit Machine Data", style: .default, handler: { _ in
+                let vc = MachineDataFormVC(vm: self.vm, data: data, isEdit: true)
+                
+                vc.idString = data.machineID ?? ""
+                vc.nameString = data.machineName ?? ""
+                vc.typeString = data.machineType ??  ""
+                vc.qrString = String(data.machineQrCode)
+                vc.dateString = data.maintenanceDate?.toString() ?? ""
+                
+                self.navigationController?.pushViewController(vc, animated: true)
+            }))
+            sheet.addAction(UIAlertAction(title: "Delete Machine Data", style: .destructive, handler: { [weak self] _ in
+                self?.vm.deleteData(data: data)
+                DispatchQueue.main.async {
+                    self?.sort()
+                    self?.tableView.reloadData()
+                }
+            }))
             
-            self.navigationController?.pushViewController(vc, animated: true)
-        }))
-        sheet.addAction(UIAlertAction(title: "Delete Machine Data", style: .destructive, handler: { [weak self] _ in
-            self?.vm.deleteData(data: data)
-            DispatchQueue.main.async {
-                self?.sort()
-                self?.tableView.reloadData()
-            }
-        }))
-        
-        present(sheet, animated: true)
+            present(sheet, animated: true)
+        } else {
+            //nothing
+        }
     }
 }
